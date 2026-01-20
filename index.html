@@ -1,1 +1,69 @@
-<div>Random Answer Giver</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Selection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      padding: 8px 0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Selected Answers</h2>
+  <ul id="answerList"></ul>
+
+  <button onclick="displayTwo()">Pick 2</button>
+
+  <script>
+    const answer_array = [
+      "8. Roots",
+      "12. South of the 6",
+      "18. (Multiple choice)",
+      "19. Thirsty Moose",
+      "23. (Multiple choice)",
+      "26. Taj",
+      "29. (Multiple choice)",
+      "30. (Multiple choice)",
+      "33. (Multiple choice)",
+      "34. Feathered Friend",
+      "40. Multiple (choice)"
+    ];
+
+    function displayTwo() {
+      const list = document.getElementById("answerList");
+      list.innerHTML = "";
+
+      // Shuffle and select 2
+      const shuffled = [...answer_array].sort(() => Math.random() - 0.5);
+      const chosen = shuffled.slice(0, 5);
+
+      // Sort chosen items by original index
+      chosen.sort(
+        (a, b) => answer_array.indexOf(a) - answer_array.indexOf(b)
+      );
+
+      // Display
+      chosen.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.appendChild(li);
+      });
+    }
+
+    // Run once on page load
+    displayTwo();
+  </script>
+
+</body>
+</html>
