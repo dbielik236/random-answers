@@ -5,65 +5,258 @@
   <title>Random Selection</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
-      padding: 8px 0;
-      font-weight: bold;
-    }
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #f4f7f8, #e9eef1);
+  color: #1f2933;
+  padding: 40px;
+}
+
+h2 {
+  font-size: 1.6rem;
+  
+}
+
+ul {
+  max-width: 800px;
+  padding: 0;
+  display: grid;
+  grid-template-rows: repeat(9, auto); /* adjust if needed */
+  grid-auto-flow: column;
+  gap: 12px 80px;
+}
+
+
+@media (max-width: 600px) {
+  ul {
+    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+  }
+}
+
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+li span {
+  flex: 1;
+}
+
+.copy-btn {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2563eb;
+  background: transparent;
+  border: 1px solid #2563eb;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.copy-btn:hover {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+
+button {
+  margin-top: 14px;
+  margin-left: 80px;
+  padding: 10px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: #2563eb;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  height: 40px;
+}
+
+button:hover {
+  background: #1e4fd8;
+}
+
   </style>
 </head>
 <body>
-
-  <h2>Selected Answers</h2>
+<div style="display: flex; gap: 40px;">
   <ul id="answerList"></ul>
 
-  <button onclick="displayTwo()">Pick 2</button>
+  
 
   <script>
-    const answer_array = [
-      "8. Roots",
-      "12. South of the 6",
-      "18. (Multiple choice)",
-      "19. Thirsty Moose",
-      "23. (Multiple choice)",
-      "26. Taj",
-      "29. (Multiple choice)",
-      "30. (Multiple choice)",
-      "33. (Multiple choice)",
-      "34. Feathered Friend",
-      "40. Multiple (choice)"
-    ];
+  const answer_array = [
+    
+    "8. Roots - Manchester",
+    "12. South of the 6 - Manchester",
+    "18. (Multiple choice)",
+    "19. Thirsty Moose, Manchester",
+    "23. (Multiple choice)",
+    "26. Taj - Manchester",
+    "29. (Multiple choice)",
+    "30. (Multiple choice)",
+    "33. (Multiple choice)",
+    "34. Feathered Friend - Concord",
+    "40. Multiple (choice)",
+    "42. The Crown - Manchester",
+    "52. Shopper's - Manchester", 
+    "57. (Multiple choice)",
+    "59. (Multiple choice)",
+    "60. Kettlehead - Nashua",
+    "61. Averill House Vineyard - Brookline",
+    "65. Moka Pot - Manchester",
+    "66. Bookery - Manchester",
+    "82. (Multiple choice)",
+    "86. (Multiple choice)",
+    "88. (Multiple choice)",
+    "89. The Shaskeen - Manchester",
+    "92. Billy's - Manchester",
+    "98. Citywide Arts Festival - Manchester",
+    "111. Phil - Roots, Manchester",
+    "113. (Multiple choice)"
 
-    function displayTwo() {
-      const list = document.getElementById("answerList");
-      list.innerHTML = "";
 
-      // Shuffle and select 2
-      const shuffled = [...answer_array].sort(() => Math.random() - 0.5);
-      const chosen = shuffled.slice(0, 5);
+  ];
 
-      // Sort chosen items by original index
-      chosen.sort(
-        (a, b) => answer_array.indexOf(a) - answer_array.indexOf(b)
-      );
+  const nhSelectedZipCodes = [
+  "03031","03033","03043","03045","03047","03048","03049","03051","03052",
+  "03054","03055","03057","03060","03061","03062","03063","03064","03070",
+  "03071","03076","03082","03084","03086","03101","03102","03103","03104",
+  "03105","03107","03108","03109","03110","03111","03244","03281","03440",
+  "03442","03449","03458","03468","03032","03034","03036","03037","03038",
+  "03040","03041","03042","03044","03053","03073","03077","03079","03087",
+  "03261","03290","03291","03801","03802","03803","03804","03805","03811",
+  "03819","03826","03827","03833","03840","03841","03842","03843","03844",
+  "03848","03854","03856","03857","03858","03859","03862","03865","03870",
+  "03871","03873","03874","03885","03046","03106","03216","03221","03224",
+  "03229","03230","03231","03233","03234","03235","03242","03243","03255",
+  "03257","03258","03260","03263","03268","03272","03273","03275","03276",
+  "03278","03287","03301","03302","03303","03304","03305","03307","03218",
+  "03220","03225","03226","03237","03246","03247","03249","03252","03253",
+  "03256","03269","03289","03298","03299","03809","03810","03837"
+];
 
-      // Display
-      chosen.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        list.appendChild(li);
-      });
-    }
+const walkOnSongs = [
+  "Thunderstruck – AC/DC",
+  "Seven Nation Army – The White Stripes",
+  "Enter Sandman – Metallica",
+  "Lose Yourself – Eminem",
+  "Eye of the Tiger – Survivor",
+  "Welcome to the Jungle – Guns N’ Roses",
+  "We Will Rock You – Queen",
+  "Power – Kanye West",
+  "Can’t Hold Us – Macklemore & Ryan Lewis",
+  "All I Do Is Win – DJ Khaled",
+  "Crazy Train – Ozzy Osbourne",
+  "Uproar – Lil Wayne",
+  "X Gon’ Give It To Ya – DMX",
+  "Remember the Name – Fort Minor",
+  "Back in Black – AC/DC",
+  "Till I Collapse – Eminem",
+  "HUMBLE. – Kendrick Lamar",
+  "Bulls on Parade – Rage Against the Machine",
+  "Run This Town – Jay-Z",
+  "Bad to the Bone – George Thorogood",
+  "Jump Around – House of Pain",
+  "Bring Em Out – T.I.",
+  "Right Now – Van Halen",
+  "Pump It – The Black Eyed Peas",
+  "Started From the Bottom – Drake",
+  "My Songs Know What You Did in the Dark – Fall Out Boy",
+  "Turn Down for What – DJ Snake & Lil Jon",
+  "Stronger – Kanye West",
+  "DNA. – Kendrick Lamar",
+  "Public Service Announcement – Jay-Z",
+  "Sabotage – Beastie Boys",
+  "Kashmir – Led Zeppelin",
+  "Bangarang – Skrillex",
+  "Jump – Van Halen",
+  "The Middle – Jimmy Eat World",
+  "All the Small Things – blink-182",
+  "The Pretender – Foo Fighters",
+  "Shipping Up to Boston – Dropkick Murphys",
+  "Renegades – X Ambassadors",
+  "Industry Baby – Lil Nas X",
+  "Run Boy Run – Woodkid",
+  "Power Glove – Knife Party",
+  "Legend – The Score",
+  "Believer – Imagine Dragons",
+  "Immigrant Song – Led Zeppelin",
+  "Sandstorm – Darude",
+  "The Final Countdown – Europe",
+  "High Hopes – Panic! At The Disco",
+  "Can’t Stop – Red Hot Chili Peppers"
+];
 
-    // Run once on page load
-    displayTwo();
-  </script>
 
+  function displayAnswers() {
+  const list = document.getElementById("answerList");
+  list.innerHTML = "";
+
+  // Random ZIP for Question 1
+  const randomZip =
+    nhSelectedZipCodes[Math.floor(Math.random() * nhSelectedZipCodes.length)];
+
+
+
+  const randomSong =
+  walkOnSongs[Math.floor(Math.random() * walkOnSongs.length)];
+
+const fixed = [
+  `1. ${randomZip}`,
+  `2. ${randomSong}`,
+  "116. Gus & Jean"
+];
+
+  const remaining = answer_array.filter(
+    item => !item.startsWith("1.") && !fixed.includes(item)
+  );
+
+  const shuffled = [...remaining].sort(() => Math.random() - 0.5);
+  const randomFive = shuffled.slice(0, 15);
+
+  const chosen = [...fixed, ...randomFive];
+
+  // Keep chronological order
+  chosen.sort((a, b) => {
+    const getNum = str => parseInt(str.split(".")[0], 10);
+    return getNum(a) - getNum(b);
+  });
+
+  chosen.forEach(item => {
+  const li = document.createElement("li");
+
+  const textSpan = document.createElement("span");
+  textSpan.textContent = item;
+
+  const copyBtn = document.createElement("button");
+  copyBtn.textContent = "Copy";
+  copyBtn.className = "copy-btn";
+
+  copyBtn.onclick = () => {
+  const cleanText = item.substring(item.indexOf(" ") + 1);
+  navigator.clipboard.writeText(cleanText);
+
+  copyBtn.textContent = "Copied!";
+  setTimeout(() => (copyBtn.textContent = "Copy"), 1200);
+};
+
+  li.appendChild(textSpan);
+  li.appendChild(copyBtn);
+  list.appendChild(li);
+});
+}
+
+  // Run once on page load
+  displayAnswers();
+</script>
+
+ <button onclick="displayAnswers()">Get new answers!</button>
+</div>
 </body>
 </html>
